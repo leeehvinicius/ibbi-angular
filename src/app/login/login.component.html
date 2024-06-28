@@ -1,0 +1,24 @@
+<div class="login-container">
+    <div class="login-box">
+      <img src="assets/imgs/logo-reclame-aqui-2048.png" alt="Logo" class="logo">
+      <form [formGroup]="formLogin" (ngSubmit)="logar()">
+      <h2>Login</h2>
+      <div class="input-group">
+        <span class="p-float-label">
+          <input id="username" type="text" formControlName="login" pInputText>
+          <label for="username">Username</label>
+        </span>
+      </div>
+      <div class="input-group">
+        <span class="p-float-label">
+          <input id="password" type="password" formControlName="senha" pInputText>
+          <label for="password">Password</label>
+        </span>
+      </div>
+      <div class="button-group">
+        <button pButton type="submit" label="Login" class="p-button-rounded"></button>
+        <button pButton type="button" label="Register" class="p-button-rounded p-button-secondary" (click)="Register()"></button>
+      </div>
+    </form>
+    </div>
+  </div>

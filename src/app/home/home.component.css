@@ -1,0 +1,9 @@
+.product-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+
+p-card {
+  margin: 16px;
+}

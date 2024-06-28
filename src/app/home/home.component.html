@@ -1,0 +1,63 @@
+<p-menubar [model]="items">
+  <ng-template pTemplate="start">
+    <img src="https://primefaces.org/cdn/primeng/images/primeng.svg" height="40" class="mr-2" />
+  </ng-template>
+  <ng-template pTemplate="end">
+    <button pButton label="Sair" icon="pi pi-power-off" class="ml-2" (click)="logout()"></button>
+  </ng-template>
+</p-menubar>
+
+
+<div class="product-container">
+  <p-card *ngFor="let produto of produtos" header="{{ produto.descricao_prod }}" subheader="{{ produto.quantidade_prod }}" [style]="{ width: '360px' }">
+    <ng-template pTemplate="header">
+      <img alt="Card" [src]="produto.imagemUrl || 'https://primefaces.org/cdn/primeng/images/usercard.png'" />
+    </ng-template>
+    <p>
+      {{ produto.valor_prod | currency: 'BRL':'symbol':'1.2-2' }} 
+      ({{ convertToUSD(produto.valor_prod) | currency: 'USD':'symbol':'1.2-2' }} USD)
+    </p>
+    <ng-template pTemplate="footer">
+      <p-button (click)="showDialog(produto.id_prod)" icon="pi pi-external-link" label="Comprar"></p-button>
+      <p-dialog header="Comprar" [(visible)]="visible" [modal]="true" [style]="{ width: '15vw' }" [draggable]="false" [resizable]="false">
+        <form [formGroup]="formcompra" (ngSubmit)="compra()">
+          <p class="m-0">            
+            <input type="number" pInputText formControlName="quantidade" placeholder="Quantidade" /><br>
+            <button pButton pRipple label="Submit" class="p-button-success" type="submit" [disabled]="!formcompra.valid"></button>
+          </p>
+        </form>
+      </p-dialog>
+
+      <p-button (click)="showDialog2(produto.id_prod)" icon="pi pi-external-link" label="Adicionar qtd"></p-button>
+<p-dialog header="Adicionar" [(visible)]="visible2" [modal]="true" [style]="{ width: '15vw' }" [draggable]="false" [resizable]="false">
+        <form [formGroup]="formcompra2" (ngSubmit)="compra_adicionar()">
+          <p class="m-0">            
+            <input type="number" pInputText formControlName="quantidade2" placeholder="Quantidade" /><br>
+            <button pButton pRipple label="Submit" class="p-button-success" type="submit" [disabled]="!formcompra2.valid"></button>
+          </p>
+        </form>
+      </p-dialog>
+    </ng-template>
+  </p-card>
+</div>
+<!-- Diálogo de Criação de Categoria -->
+<p-dialog header="Cadastrar Nova Categoria" [(visible)]="visible_categoria" [modal]="true" [style]="{ 'width': '50vw' }" [draggable]="false" [resizable]="false">
+  <form [formGroup]="formCategoria" (ngSubmit)="criarCategoria()">
+    <p class="m-0">
+      <input type="text" pInputText formControlName="descricao" placeholder="Descrição" /><br>
+      <button pButton pRipple label="Cadastrar Categoria" class="p-button-success" type="submit" [disabled]="!formCategoria.valid"></button>
+    </p>
+  </form>
+</p-dialog>
+
+<!-- Diálogo de Cadastro de Produtos -->
+<p-dialog header="Cadastro de Novo Produto" [(visible)]="visible_produtos" [modal]="true" [style]="{'width': '50vw', 'height': '300vw'}" [draggable]="false" [resizable]="false">
+  <form [formGroup]="formProduto" (ngSubmit)="criarProduto()">
+    <input type="text" pInputText formControlName="descprod" placeholder="Descrição" /><br>
+    <input type="text" pInputText formControlName="qtd" placeholder="Quantidade" /><br>
+    <input type="text" pInputText formControlName="valor" placeholder="Valor" /><br>
+    <p-multiSelect [options]="listaCategorias" [(ngModel)]="selectedCategoria" formControlName="categoria" optionLabel="descricao" defaultLabel="Selecione uma categoria"></p-multiSelect>
+    <input type="file" (change)="onFileChange($event)" formControlName="imagem">
+    <button type="submit" pButton label="Salvar"></button>
+  </form>
+</p-dialog>
